@@ -3,4 +3,54 @@
    uuid = "81BEB8E1-7CEF-4709-AD63-E019A647B107"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "235795A0-570C-4FFA-8826-ADB7EDFAC52A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "pokemon/Views/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "unknown"
+            landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "235795A0-570C-4FFA-8826-ADB7EDFAC52A - 930f7e7a8fb74935"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static pokemon.ContentView_Previews.previews.getter : some"
+                  moduleName = "pokemon"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxdramis/Desktop/Repository/pokemon/pokemon/Views/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "48">
+               </Location>
+               <Location
+                  uuid = "235795A0-570C-4FFA-8826-ADB7EDFAC52A - 930f7e7a8fb749da"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static pokemon.ContentView_Previews.previews.getter : some"
+                  moduleName = "pokemon"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/maxdramis/Desktop/Repository/pokemon/pokemon/Views/ContentView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "178">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

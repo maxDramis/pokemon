@@ -16,23 +16,23 @@ struct PokemonList: Decodable , Identifiable{
 }
 
 struct Pokemon: Decodable, Equatable {
+    let name: String
+    let url: String
+    var data: PokemonData?
     static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
         if lhs.name == rhs.name {
             return true
         }
         return false
     }
-    let name: String
-    let url: String
-    var data: PokemonData?
 }
 
 struct PokemonData: Decodable {
     let id: Int
     let height: Int
     let weight: Int
-    let location_area_encounters: String
     let name: String
+//    let location_area_encounters: String
 //    let abilities: [Dictionary<String, String>]
 //    let base_experience: Int
 //    let forms: String
