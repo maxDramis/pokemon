@@ -15,31 +15,42 @@ struct PokemonList: Decodable , Identifiable{
     var previous: String
 }
 
-struct Pokemon: Decodable {
+struct Pokemon: Decodable, Equatable {
+    static func == (lhs: Pokemon, rhs: Pokemon) -> Bool {
+        if lhs.name == rhs.name {
+            return true
+        }
+        return false
+    }
     let name: String
     let url: String
     var data: PokemonData?
 }
 
 struct PokemonData: Decodable {
-    let abilities: [String]?
-    let base_experience: Int?
-    let forms: [String]?
-    let game_indices: [String]?
-    let height: Int
-    let held_items: [String]?
     let id: Int
-    let is_default: Bool
-    let location_area_encounters: String
-    let moves: [String]?
-    let name: String
-    let order: Int
-    let past_types: [String]?
-    let species: [String]?
-    let sprites: Sprites?
-    let stats: [String]?
-    let types: [String]?
+    let height: Int
     let weight: Int
+    let location_area_encounters: String
+    let name: String
+//    let abilities: [Dictionary<String, String>]
+//    let base_experience: Int
+//    let forms: String
+//    let game_indices: [String]
+//    let height: Int
+//    let held_items: [String]
+//    let id: Int
+//    let is_default: Bool
+//    let location_area_encounters: String
+//    let moves: [String]
+//    let name: String
+//    let order: Int
+//    let past_types: [String]
+//    let species: [String]
+//    let sprites: Sprites
+//    let stats: [String]
+//    let types: [String]
+//    let weight: Int
 }
 
 struct Sprites: Decodable {

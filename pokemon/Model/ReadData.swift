@@ -9,9 +9,22 @@ import Foundation
 
 class ReadData: ObservableObject  {
     @Published var pokemonList = [Pokemon]()
+    @Published var details = [PokemonData]()
+    private var urlDetails: [String] = []
     
     init(){
         loadData()
+        for i in 0..<urlDetails.count{
+            loadDataPokemon(path: urlDetails[i])
+        }
+        details.reverse()
+    }
+    
+    func getPokemonIndex(pokemon: Pokemon) -> Int {
+        if let index = self.pokemonList.firstIndex(of: pokemon) {
+            return index + 1
+        }
+        return 0
     }
     
     func loadData() {
@@ -42,9 +55,10 @@ class ReadData: ObservableObject  {
             DispatchQueue.main.async { [weak self] in
                 self?.pokemonList = resp.results
                 let list = resp.results
-//                for i in 0..<list.count {
-//                    self?.loadDataPokemon(path: list[i].url)
-//                }
+                for i in 0..<list.count {
+                    self?.urlDetails.append(list[i].url)
+                    //                    self?.loadDataPokemon(path: list[i].url)
+                }
             }
         } catch(let error) {
             print(error)
@@ -77,11 +91,12 @@ class ReadData: ObservableObject  {
         do {
             let resp = try JSONDecoder().decode(PokemonData.self, from: data)
             DispatchQueue.main.async { [weak self] in
-                for i in 0..<self!.pokemonList.count{
-                    if(self!.pokemonList[i].name == resp.name){
-                        self!.pokemonList[i].data = resp
-                    }
-                }
+                self?.details.append(resp)
+                //                for i in 0..<self!.pokemonList.count{
+                //                    if(self!.pokemonList[i].name == resp.name){
+                //                        self!.pokemonList[i].data = resp
+                //                    }
+                //                }
             }
         } catch(let error) {
             print(error)
