@@ -9,16 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var pokemon = ReadData()
-//    @StateObject private var pokemonData = ReadData()
     
     var body: some View {
-        VStack {
+        NavigationStack {
             List (0..<pokemon.pokemonList.count, id: \.self){ i in
-                HStack {
-//                    AsyncImage(url: URL(string: ""))
-                    Text(pokemon.pokemonList[i].name.capitalized)
+                NavigationLink {
+                    PokemonView(pokemon: pokemon.pokemonList[i])
+                } label: {
+                    Text(pokemon.pokemonList[i].name.capitalized).padding([.bottom, .top], 8)
                 }
             }
+            .navigationTitle("My Pokemon")
         }
     }
 }
@@ -28,4 +29,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-

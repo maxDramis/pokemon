@@ -18,6 +18,7 @@ struct PokemonList: Decodable , Identifiable{
 struct Pokemon: Decodable {
     let name: String
     let url: String
+    var data: PokemonData?
 }
 
 struct PokemonData: Decodable {

@@ -9,7 +9,6 @@ import Foundation
 
 class ReadData: ObservableObject  {
     @Published var pokemonList = [Pokemon]()
-    @Published var pokemonListData = [PokemonData]()
     
     init(){
         loadData()
@@ -43,9 +42,9 @@ class ReadData: ObservableObject  {
             DispatchQueue.main.async { [weak self] in
                 self?.pokemonList = resp.results
                 let list = resp.results
-                for i in 0..<list.count {
-                    self?.loadDataPokemon(path: list[i].url)
-                }
+//                for i in 0..<list.count {
+//                    self?.loadDataPokemon(path: list[i].url)
+//                }
             }
         } catch(let error) {
             print(error)
@@ -78,7 +77,11 @@ class ReadData: ObservableObject  {
         do {
             let resp = try JSONDecoder().decode(PokemonData.self, from: data)
             DispatchQueue.main.async { [weak self] in
-                self?.pokemonListData.append(resp)
+                for i in 0..<self!.pokemonList.count{
+                    if(self!.pokemonList[i].name == resp.name){
+                        self!.pokemonList[i].data = resp
+                    }
+                }
             }
         } catch(let error) {
             print(error)
