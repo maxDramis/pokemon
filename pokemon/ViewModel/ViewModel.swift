@@ -9,7 +9,6 @@ import Foundation
 
 class ViewModel: ObservableObject {
     @Published var pokemonList = [Pokemon]()
-    @Published var detailsList = [PokemonData]()
     
     init() {
         loadData()
@@ -37,22 +36,23 @@ class ViewModel: ObservableObject {
             print("Error: Data not found")
             return
         }
-//        print(data, String(data: data, encoding: .utf8) ?? "*unknown encoding*")
         do {
             let resp = try JSONDecoder().decode(PokemonList.self, from: data)
-            DispatchQueue.main.async { [weak self] in
-                self?.pokemonList = resp.results
-                for i in 0..<(self?.pokemonList.count ?? 0) {
-                    self?.getData(path: self?.pokemonList[i].url ?? "")
+            
+            self.pokemonList = resp.results
+            for i in 0..<(self.pokemonList.count) {
+                let currentUrl = self.pokemonList[i].url
+                self.getData(path: currentUrl) { data in
+                    self.pokemonList[i].data = data
                 }
-                self?.detailsList.reverse()
+                
             }
         } catch(let error) {
             print(error)
         }
     }
     
-    func getData(path: String) {
+    func getData(path: String, completition: @escaping (PokemonData) -> Void ) {
         guard let url =  URL(string:path)
         else {
             print("File not found")
@@ -60,7 +60,7 @@ class ViewModel: ObservableObject {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        URLSession.shared.dataTask(with: request){ [weak self] (data, response, error) in
+        URLSession.shared.dataTask(with: request){ (data, response, error) in
             if let error = error {
                 print(error)
                 return
@@ -71,10 +71,8 @@ class ViewModel: ObservableObject {
             }
             do {
                 let resp = try JSONDecoder().decode(PokemonData.self, from: data)
-                DispatchQueue.main.async { [weak self] in
-//                    self?.details = resp
-                    self?.detailsList.append(resp)
-                }
+                completition(resp)
+                
             } catch(let error) {
                 print(error)
             }

@@ -35,7 +35,7 @@ struct PokemonData: Decodable {
 //    let location_area_encounters: String
 //    let abilities: [Dictionary<String, String>]
 //    let base_experience: Int
-//    let forms: String
+//    let forms: [String]
 //    let game_indices: [String]
 //    let height: Int
 //    let held_items: [String]
@@ -47,7 +47,7 @@ struct PokemonData: Decodable {
 //    let order: Int
 //    let past_types: [String]
 //    let species: [String]
-//    let sprites: Sprites
+    let sprites: Sprites
 //    let stats: [String]
 //    let types: [String]
 //    let weight: Int

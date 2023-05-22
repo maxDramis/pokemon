@@ -14,25 +14,19 @@ struct ContentView: View {
         NavigationStack {
             List (0..<vm.pokemonList.count, id: \.self){ i in
                 NavigationLink {
-                    PokemonView(pokemon: vm.pokemonList[i], pokemonData: vm.detailsList[i])
+                    PokemonView(pokemon: vm.pokemonList[i])
                 } label: {
-                    Text(vm.detailsList[i].name)
+                    Text(vm.pokemonList[i].name.capitalized)
                         .padding([.bottom, .top], 8)
-                    //                    Text(vm.pokemonList[i].name.capitalized).padding([.bottom, .top], 8)
                 }
             }
-//            .task {
-//                try? await vm.loadData()
-//                try? await Task.sleep(for: Duration.seconds(1))
-//            }
             .navigationTitle("My Pokemon")
         }
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        var vm = ViewModel(wrappedValue: <#Void#>)
-//        ContentView(vm: vm)
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView(vm: ViewModel())
+    }
+}
