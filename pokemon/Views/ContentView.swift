@@ -14,9 +14,9 @@ struct ContentView: View {
         NavigationStack {
             List (0..<vm.pokemonList.count, id: \.self){ i in
                 NavigationLink {
-                    PokemonView(pokemon: vm.pokemonList[i], pokemonData: vm.getData(path: vm.pokemonList[i].url))
+                    PokemonView(pokemon: vm.pokemonList[i], pokemonData: vm.detailsList[i])
                 } label: {
-                    Text(vm.getData(path: vm.pokemonList[i].url)?.name ?? "Not Found")
+                    Text(vm.detailsList[i].name)
                         .padding([.bottom, .top], 8)
                     //                    Text(vm.pokemonList[i].name.capitalized).padding([.bottom, .top], 8)
                 }

@@ -9,7 +9,7 @@ import Foundation
 
 class ViewModel: ObservableObject {
     @Published var pokemonList = [Pokemon]()
-    private var details: PokemonData?
+    @Published var detailsList = [PokemonData]()
     
     init() {
         loadData()
@@ -42,17 +42,21 @@ class ViewModel: ObservableObject {
             let resp = try JSONDecoder().decode(PokemonList.self, from: data)
             DispatchQueue.main.async { [weak self] in
                 self?.pokemonList = resp.results
+                for i in 0..<(self?.pokemonList.count ?? 0) {
+                    self?.getData(path: self?.pokemonList[i].url ?? "")
+                }
+                self?.detailsList.reverse()
             }
         } catch(let error) {
             print(error)
         }
     }
     
-    func getData(path: String) -> PokemonData? {
+    func getData(path: String) {
         guard let url =  URL(string:path)
         else {
             print("File not found")
-            return PokemonData(id: -1, height: 120, weight: 120, name: "Cico")
+            return
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -68,12 +72,12 @@ class ViewModel: ObservableObject {
             do {
                 let resp = try JSONDecoder().decode(PokemonData.self, from: data)
                 DispatchQueue.main.async { [weak self] in
-                    self?.details = resp
+//                    self?.details = resp
+                    self?.detailsList.append(resp)
                 }
             } catch(let error) {
                 print(error)
             }
         }.resume()
-        return details
     }
 }
