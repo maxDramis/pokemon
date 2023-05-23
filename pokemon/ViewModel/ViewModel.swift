@@ -15,7 +15,6 @@ class ViewModel: ObservableObject {
     }
     
     func loadData() {
-        let group = DispatchGroup()
         guard let url =  URL(string:"https://pokeapi.co/api/v2/pokemon?offset=20&limit=20")
         else {
             print("File not found")
@@ -23,14 +22,15 @@ class ViewModel: ObservableObject {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        
         URLSession.shared.dataTask(with: request){ [weak self] (data, response, error) in
-            self?.handleResponse(data, response, error)
+            self?.handleResponse(data, response, error, completition: { pokemonList in
+                self?.pokemonList = pokemonList
+            })
         }.resume()
     }
     
-    @objc func handleResponse(_ data: Data?, _ response: URLResponse? , _ error: Error?) {
-        let group = DispatchGroup()
+    func handleResponse(_ data: Data?, _ response: URLResponse? , _ error: Error?, completition: @escaping ([Pokemon]) -> Void ) {
+//        let group = DispatchGroup()
         if let error = error {
             print(error)
             return
@@ -40,20 +40,16 @@ class ViewModel: ObservableObject {
             return
         }
         do {
-            group.enter()
             let resp = try JSONDecoder().decode(PokemonList.self, from: data)
-            self.pokemonList = resp.results
-            for i in 0..<(self.pokemonList.count) {
-                let currentUrl = self.pokemonList[i].url
+            //            self.pokemonList = resp.results
+            var lista = resp.results
+            for i in 0..<lista.count {
+                var currentUrl = lista[i].url
                 self.getData(path: currentUrl) { data in
-                    self.pokemonList[i].data = data
+                    lista[i].data = data
                 }
-                
             }
-            group.leave()
-            group.notify(queue: .main){
-                print("Work Done")
-            }
+            completition(lista)
         } catch(let error) {
             print(error)
         }
