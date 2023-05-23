@@ -32,25 +32,21 @@ struct PokemonData: Decodable {
     let height: Int
     let weight: Int
     let name: String
-//    let location_area_encounters: String
-//    let abilities: [Dictionary<String, String>]
-//    let base_experience: Int
-//    let forms: [String]
-//    let game_indices: [String]
-//    let height: Int
-//    let held_items: [String]
-//    let id: Int
-//    let is_default: Bool
-//    let location_area_encounters: String
-//    let moves: [String]
-//    let name: String
-//    let order: Int
-//    let past_types: [String]
-//    let species: [String]
     let sprites: Sprites
-//    let stats: [String]
-//    let types: [String]
-//    let weight: Int
+    let base_experience: Int
+    let is_default: Bool
+    let location_area_encounters: String
+    let order: Int
+    //    let location_area_encounters: String
+    //    let abilities: [Dictionary<String, String>]
+    //    let forms: [String]
+    //    let game_indices: [String]
+    //    let held_items: [String]
+    //    let moves: [String]
+    //    let past_types: [String]
+    //    let species: [String]
+    //    let stats: [String]
+    //    let types: [String]
 }
 
 struct Sprites: Decodable {

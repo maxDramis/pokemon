@@ -15,7 +15,7 @@ class ViewModel: ObservableObject {
     }
     
     func loadData() {
-        guard let url =  URL(string:"https://pokeapi.co/api/v2/pokemon?offset=20&limit=20")
+        guard let url =  URL(string:"https://pokeapi.co/api/v2/pokemon?offset=20&limit=10")
         else {
             print("File not found")
             return
@@ -41,17 +41,17 @@ class ViewModel: ObservableObject {
         }
         do {
             let resp = try JSONDecoder().decode(PokemonList.self, from: data)
-            var lista = resp.results
-            for i in 0..<lista.count {
+            var list = resp.results
+            for i in 0..<list.count {
                 group.enter()
-                let currentUrl = lista[i].url
+                let currentUrl = list[i].url
                 self.getData(path: currentUrl) { data in
-                    lista[i].data = data
+                    list[i].data = data
                     group.leave()
                 }
             }
             group.notify(queue: .main) {
-                completition(lista)
+                completition(list)
             }
         } catch(let error) {
             print(error)

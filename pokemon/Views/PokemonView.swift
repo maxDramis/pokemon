@@ -15,27 +15,70 @@ struct PokemonView: View {
     }
     
     var body: some View {
-        VStack {
-            AsyncImage(url: URL(string: pokemon.data?.sprites.back_default ?? "")) { image in
-                if let image = image {
-                    image
-                        .resizable()
-                        .scaledToFit()
+        ZStack {
+            RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.white).shadow(radius: 10).padding(.horizontal, 30).padding(.vertical, 60)
+            VStack {
+                Text("ID: \(pokemon.data?.id ?? 0)").font(.system(size: 16, weight: .ultraLight, design: .monospaced))
+                AsyncImage(url: URL(string: pokemon.data?.sprites.back_default ?? "")) { image in
+                    if let image = image {
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 140, height: 140)
+                    }
+                } placeholder: {
+                    ProgressView()
                         .frame(width: 140, height: 140)
+                    
                 }
-            } placeholder: {
-                ProgressView()
-                    .frame(width: 140, height: 140)
+                .background(.thinMaterial)
+                .clipShape(Circle())
+                VStack (alignment: .leading){
+                    Text("Name: \(pokemon.name.capitalized)").font(.system(size: 20, weight: .bold, design: .monospaced)).padding(.bottom, 4)
+                    Text("Weight:    \(pokemon.data?.weight ?? 0)").font(.system(size: 14, weight: .regular, design: .monospaced))
+                    Text("Height:    \(pokemon.data?.height ?? 0)").font(.system(size: 14, weight: .regular, design: .monospaced))
+                    Text("Default:  \(pokemon.data?.is_default == true ? "True" : "False")").font(.system(size: 14, weight: .regular, design: .monospaced))
+                    Text("Order:     \(pokemon.data?.order ?? 0)").font(.system(size: 14, weight: .regular, design: .monospaced)).padding(.bottom, 6)
+                    Text("Experience: \(pokemon.data?.base_experience ?? 0)").font(.system(size: 16, weight: .regular, design: .monospaced))
+                }
                 
             }
-            .background(.thinMaterial)
-            .clipShape(Circle())
-            Text("ID: \(pokemon.data?.id ?? 0)").font(.system(size: 16, weight: .regular, design: .monospaced))
-            Text("Name: \(pokemon.name.capitalized)").font(.system(size: 20, weight: .bold, design: .monospaced)).padding(.bottom, 4)
-            Text("Weight: \(pokemon.data?.weight ?? 0)").font(.system(size: 16, weight: .regular, design: .monospaced))
-            Text("Height:  \(pokemon.data?.height ?? 0)").font(.system(size: 16, weight: .regular, design: .monospaced))
+            .navigationTitle(pokemon.name.capitalized)
         }
-        .navigationTitle(pokemon.name.capitalized)
     }
 }
 
+//struct FirstCard: View {
+//
+//    let card: Card
+//
+//    var body: some View {
+//        ZStack {
+//            RoundedRectangle(cornerRadius: 10, style: .continuous).fill(.white).shadow(radius: 5)
+//
+//            VStack (alignment: .leading){
+//                HStack{
+//                    VStack(alignment: .leading){
+//                        VStack (){
+//                            Text(card.title).font(.title3).fontWeight(.bold)
+//                        }.padding(.bottom, 5)
+//                        Text(card.description).lineLimit(4).font(.footnote)
+//                    }
+//                    VStack (alignment: .trailing) {
+////                        Spacer().padding(.top)
+//                        if(card.dismissable){
+//                            Image(systemName: "multiply").foregroundColor(Color.gray)
+//                                .font(.system(size: 20, weight: .bold)).padding()
+//                        }
+//                        AsyncImage(url: URL(string: card.imageUrl), scale: 3)
+//                        //                    Image(uiImage: UIImage(imageLiteralResourceName: "prima")).resizable()
+////                            .aspectRatio(contentMode: .fit)
+//                            .frame(width: 130, height: 130)
+//                            .shadow(radius: 1).cornerRadius(1)
+//                    }
+//                }
+//            }.padding(.leading)
+//        }.frame(width: 300, height: 160).padding()
+//
+//    }
+//}
