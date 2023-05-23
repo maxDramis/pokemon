@@ -14,7 +14,8 @@ class ViewModel: ObservableObject {
         loadData()
     }
     
-    func loadData() {
+     func loadData() {
+        let group = DispatchGroup()
         guard let url =  URL(string:"https://pokeapi.co/api/v2/pokemon?offset=20&limit=20")
         else {
             print("File not found")
@@ -22,12 +23,18 @@ class ViewModel: ObservableObject {
         }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
+        group.enter()
         URLSession.shared.dataTask(with: request){ [weak self] (data, response, error) in
             self?.handleResponse(data, response, error)
+            group.leave()
+            group.notify(queue: .main){
+                print("Work Done")
+            }
         }.resume()
     }
     
     func handleResponse(_ data: Data?, _ response: URLResponse? , _ error: Error?) {
+        let group = DispatchGroup()
         if let error = error {
             print(error)
             return
@@ -37,8 +44,8 @@ class ViewModel: ObservableObject {
             return
         }
         do {
+            group.enter()
             let resp = try JSONDecoder().decode(PokemonList.self, from: data)
-            
             self.pokemonList = resp.results
             for i in 0..<(self.pokemonList.count) {
                 let currentUrl = self.pokemonList[i].url
@@ -47,6 +54,7 @@ class ViewModel: ObservableObject {
                 }
                 
             }
+            group.leave()
         } catch(let error) {
             print(error)
         }
