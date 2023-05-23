@@ -30,7 +30,7 @@ class ViewModel: ObservableObject {
     }
     
     func handleResponse(_ data: Data?, _ response: URLResponse? , _ error: Error?, completition: @escaping ([Pokemon]) -> Void ) {
-//        let group = DispatchGroup()
+        let group = DispatchGroup()
         if let error = error {
             print(error)
             return
@@ -41,15 +41,18 @@ class ViewModel: ObservableObject {
         }
         do {
             let resp = try JSONDecoder().decode(PokemonList.self, from: data)
-            //            self.pokemonList = resp.results
             var lista = resp.results
             for i in 0..<lista.count {
-                var currentUrl = lista[i].url
+                group.enter()
+                let currentUrl = lista[i].url
                 self.getData(path: currentUrl) { data in
                     lista[i].data = data
+                    group.leave()
                 }
             }
-            completition(lista)
+            group.notify(queue: .main) {
+                completition(lista)
+            }
         } catch(let error) {
             print(error)
         }
