@@ -46,8 +46,14 @@ class ViewModel: ObservableObject {
                 group.enter()
                 let currentUrl = list[i].url
                 self.getData(path: currentUrl) { data in
-                    list[i].data = data
-                    group.leave()
+                    switch data {
+                    case .success(let data):
+                        list[i].data = data
+                        group.leave()
+                    case .failure(_):
+                        //Failure serching data is not load from Pokemon
+                        break
+                    }
                 }
             }
             group.notify(queue: .main) {
@@ -58,7 +64,7 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func getData(path: String, completition: @escaping (PokemonData) -> Void ) {
+    func getData(path: String, completionHandler: @escaping (ResultDataNetwork) -> Void ) {
         guard let url =  URL(string:path)
         else {
             print("File not found")
@@ -68,18 +74,21 @@ class ViewModel: ObservableObject {
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request){ (data, response, error) in
             if let error = error {
+                completionHandler(.failure(NetworkError.timeOut))
                 print(error)
                 return
             }
             guard let data = data else {
                 print("Error: Data not found")
+                completionHandler(.failure(NetworkError.timeOut))
                 return
             }
             do {
                 let resp = try JSONDecoder().decode(PokemonData.self, from: data)
-                completition(resp)
+                completionHandler(.success(resp))
                 
             } catch(let error) {
+                completionHandler(.failure(NetworkError.dataNotFound))
                 print(error)
             }
         }.resume()

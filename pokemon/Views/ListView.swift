@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct ListView: View {
     @StateObject var vm:ViewModel
     
     var body: some View {
@@ -20,13 +20,14 @@ struct ContentView: View {
                         .padding([.bottom, .top], 8)
                 }
             }
-            .navigationTitle("My Pokemon")
+            .navigationTitle("Pokedex")
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(vm: ViewModel())
+        ListView(vm: ViewModel())
     }
 }
+
